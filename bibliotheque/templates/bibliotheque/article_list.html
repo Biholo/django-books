@@ -1,0 +1,76 @@
+{% extends 'bibliotheque/base.html' %}
+
+{% block title %}Liste des Articles - {{ block.super }}{% endblock %}
+
+{% block header_title %}Mini-Blog - Articles{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2>Articles du Blog</h2>
+        <p>
+            <a href="{% url 'article-create' %}" class="btn">Écrire un nouvel article</a>
+        </p>
+        
+        {% if articles %}
+            {% for article in articles %}
+                <div class="card">
+                    <h3>
+                        <a href="{% url 'article-detail' article.pk %}" style="text-decoration: none; color: #007bff;">
+                            {{ article.titre }}
+                        </a>
+                    </h3>
+                    <p>
+                        <small>
+                            {{ article.date|date:"d/m/Y à H:i" }} | 
+                            {{ article.categorie.nom }}
+                        </small>
+                    </p>
+                    <p>{{ article.contenu|truncatewords:30 }}</p>
+                    <p>
+                        <a href="{% url 'article-detail' article.pk %}" class="btn">Lire la suite</a>
+                    </p>
+                </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">« première</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">‹ précédente</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">suivante ›</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="card">
+                <p>Aucun article publié pour l'instant.</p>
+                <p>
+                    <a href="{% url 'article-create' %}" class="btn">Créer le premier article</a>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar avec catégories -->
+    {% if categories %}
+        <div class="card">
+            <h3>Catégories</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% for categorie in categories %}
+                    <li style="margin: 0.5rem 0;">
+                        {{ categorie.nom }} ({{ categorie.articles.count }} article{{ categorie.articles.count|pluralize }})
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'bibliotheque/base.html' %}
+
+{% block title %}Accueil - {{ block.super }}{% endblock %}
+
+{% block header_title %}Bienvenue sur notre plateforme{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2>Projet Django Hybride : Bibliothèque & Mini-Blog</h2>
+        <p>
+            Cette application démontre l'intégration réussie de <strong>Django REST Framework (API)</strong> 
+            et du <strong>pattern MVT traditionnel (vues web)</strong> dans un même projet.
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0;">
+        <!-- API REST -->
+        <div class="card">
+            <h3>API REST (DRF)</h3>
+            <ul style="list-style-type: none; padding: 0;">
+                <li><a href="/api/livres/" target="_blank">API Livres</a> - CRUD complet</li>
+                <li><a href="/api/auteurs/" target="_blank">API Auteurs</a> - Avec filtrage</li>
+                <li>Authentification par token</li>
+                <li>Pagination automatique</li>
+                <li>CORS configuré</li>
+                <li>Actions personnalisées</li>
+            </ul>
+            <p>
+                <small>Token: <code style="background: #f1f1f1; padding: 2px;">220eeab6d742f8713aa88d76eee55295453de1f7</code></small>
+            </p>
+        </div>
+
+        <!-- Interface Web -->
+        <div class="card">
+            <h3>Interface Web (MVT)</h3>
+            <ul style="list-style-type: none; padding: 0;">
+                <li><a href="{% url 'article-list' %}">Articles du blog</a> - Liste paginée</li>
+                <li><a href="{% url 'article-create' %}">Créer un article</a> - Formulaire</li>
+                <li><a href="{% url 'current-datetime' %}">Date/Heure courante</a> - Vue fonction</li>
+                <li>Système de commentaires</li>
+                <li>Templates avec héritage</li>
+                <li>Messages de confirmation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Fonctionnalités techniques -->
+    <div class="card">
+        <h3>Fonctionnalités techniques implémentées</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1rem 0;">
+            <div>
+                <h4>Modèles de données</h4>
+                <ul>
+                    <li><strong>Auteur</strong> - Pour l'API bibliothèque</li>
+                    <li><strong>Livre</strong> - Relation ManyToOne avec Auteur</li>
+                    <li><strong>Catégorie</strong> - Pour organiser les articles</li>
+                    <li><strong>Article</strong> - Contenu du blog</li>
+                    <li><strong>Commentaire</strong> - Interactions sur les articles</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4>Technologies utilisées</h4>
+                <ul>
+                    <li><strong>Django 5.2</strong> - Framework web</li>
+                    <li><strong>Django REST Framework</strong> - API REST</li>
+                    <li><strong>django-cors-headers</strong> - Gestion CORS</li>
+                    <li><strong>SQLite</strong> - Base de données</li>
+                    <li><strong>Admin interface</strong> - Gestion des données</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="card">
+        <h3>Statistiques actuelles</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+            <div style="text-align: center; padding: 1rem; background: #e7f3ff; border-radius: 4px;">
+                <strong style="font-size: 1.5em; color: #007bff;">{{ total_auteurs }}</strong>
+                <br><small>Auteurs</small>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #e8f5e8; border-radius: 4px;">
+                <strong style="font-size: 1.5em; color: #28a745;">{{ total_livres }}</strong>
+                <br><small>Livres</small>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #fff3cd; border-radius: 4px;">
+                <strong style="font-size: 1.5em; color: #ffc107;">{{ total_categories }}</strong>
+                <br><small>Catégories</small>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #f8d7da; border-radius: 4px;">
+                <strong style="font-size: 1.5em; color: #dc3545;">{{ total_articles }}</strong>
+                <br><small>Articles</small>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #d1ecf1; border-radius: 4px;">
+                <strong style="font-size: 1.5em; color: #17a2b8;">{{ total_commentaires }}</strong>
+                <br><small>Commentaires</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="card">
+        <h3>Actions rapides</h3>
+        <p>
+            <a href="{% url 'article-list' %}" class="btn">Voir les articles</a>
+            <a href="{% url 'article-create' %}" class="btn">Écrire un article</a>
+            <a href="/admin/" class="btn">Administration</a>
+            <a href="/api/" class="btn">Parcourir l'API</a>
+        </p>
+    </div>
+{% endblock %}

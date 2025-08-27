@@ -1,0 +1,88 @@
+{% extends 'bibliotheque/base.html' %}
+
+{% block title %}{{ article.titre }} - {{ block.super }}{% endblock %}
+
+{% block header_title %}{{ article.titre }}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h1>{{ article.titre }}</h1>
+        <p>
+            <small>
+                Publié le {{ article.date|date:"d/m/Y à H:i" }} | 
+                Catégorie : {{ article.categorie.nom }}
+            </small>
+        </p>
+        
+        <div style="line-height: 1.6; margin: 2rem 0;">
+            {{ article.contenu|linebreaks }}
+        </div>
+
+        <hr>
+        
+        <p>
+            <a href="{% url 'article-list' %}" class="btn">← Retour à la liste</a>
+            <a href="{% url 'article-create' %}" class="btn">Nouvel article</a>
+        </p>
+    </div>
+
+    <!-- Section commentaires -->
+    <div class="card">
+        <h3>Commentaires ({{ commentaires.count }})</h3>
+        
+        <!-- Formulaire d'ajout de commentaire -->
+        <form method="post" style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
+            <h4>Ajouter un commentaire</h4>
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ comment_form.nom.id_for_label }}" style="display: block; margin-bottom: 0.5rem;">Nom :</label>
+                {{ comment_form.nom }}
+                {% if comment_form.nom.errors %}
+                    <div style="color: red; font-size: 0.9em;">{{ comment_form.nom.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ comment_form.email.id_for_label }}" style="display: block; margin-bottom: 0.5rem;">Email :</label>
+                {{ comment_form.email }}
+                {% if comment_form.email.errors %}
+                    <div style="color: red; font-size: 0.9em;">{{ comment_form.email.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ comment_form.contenu.id_for_label }}" style="display: block; margin-bottom: 0.5rem;">Commentaire :</label>
+                {{ comment_form.contenu }}
+                {% if comment_form.contenu.errors %}
+                    <div style="color: red; font-size: 0.9em;">{{ comment_form.contenu.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn">Publier le commentaire</button>
+        </form>
+        
+        <!-- Liste des commentaires -->
+        {% if commentaires %}
+            {% for commentaire in commentaires %}
+                <div style="border-left: 3px solid #007bff; padding: 1rem; margin: 1rem 0; background: #f8f9fa;">
+                    <strong>{{ commentaire.nom }}</strong>
+                    <small style="color: #666; margin-left: 1rem;">le {{ commentaire.date|date:"d/m/Y à H:i" }}</small>
+                    <p style="margin: 0.5rem 0 0 0;">{{ commentaire.contenu|linebreaks }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p><em>Aucun commentaire pour l'instant. Soyez le premier à commenter !</em></p>
+        {% endif %}
+    </div>
+    
+    <style>
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+    </style>
+{% endblock %}

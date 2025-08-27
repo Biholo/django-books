@@ -1,0 +1,88 @@
+{% extends 'bibliotheque/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Modifier l'article - {{ block.super }}
+    {% else %}
+        Nouvel Article - {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block header_title %}
+    {% if form.instance.pk %}
+        Modifier l'article
+    {% else %}
+        Créer un nouvel article
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ form.titre.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">
+                    Titre de l'article :
+                </label>
+                {{ form.titre }}
+                {% if form.titre.errors %}
+                    <div style="color: red; font-size: 0.9em;">
+                        {{ form.titre.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ form.categorie.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">
+                    Catégorie :
+                </label>
+                {{ form.categorie }}
+                {% if form.categorie.errors %}
+                    <div style="color: red; font-size: 0.9em;">
+                        {{ form.categorie.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="{{ form.contenu.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">
+                    Contenu de l'article :
+                </label>
+                {{ form.contenu }}
+                {% if form.contenu.errors %}
+                    <div style="color: red; font-size: 0.9em;">
+                        {{ form.contenu.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <p>
+                <button type="submit" class="btn">
+                    {% if form.instance.pk %}
+                        Mettre à jour
+                    {% else %}
+                        Publier l'article
+                    {% endif %}
+                </button>
+                <a href="{% url 'article-list' %}" class="btn" style="background: #6c757d;">
+                    Annuler
+                </a>
+            </p>
+        </form>
+    </div>
+
+    <style>
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+    </style>
+{% endblock %}
