@@ -1,76 +1,42 @@
-# API Bibliothèque - Django REST Framework
+# Projet Django — API Bibliothèque et Mini‑blog
 
-## Description
-API REST pour la gestion d'une bibliothèque avec auteurs et livres, développée avec Django REST Framework.
-
-## Installation et configuration
-
-### 1. Installation des dépendances
+## Installation
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Migrations
-```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 3. Démarrage du serveur
+## Lancer le serveur
 ```bash
 python manage.py runserver
 ```
 
-## Fonctionnalités implémentées
+## Authentification API
+- Type: Token
+- Header: Authorization: Token <votre_token>
 
-### Modèles
-- **Auteur** : nom, date de naissance
-- **Livre** : titre, date de sortie, relation ManyToOne vers Auteur
+## Endpoints API (DRF)
+- Livres
+  - GET/POST: /api/livres/
+  - GET/PUT/DELETE: /api/livres/<id>/
+  - Recherche: /api/livres/?search=<titre>
+- Auteurs
+  - GET/POST: /api/auteurs/
+  - GET/PUT/DELETE: /api/auteurs/<id>/
+  - Filtre: /api/auteurs/?year=<année>
+  - Action: /api/auteurs/<id>/titres/
 
-### Endpoints disponibles
+## Routes Web (MVT)
+- Accueil: /
+- Articles (liste): /articles/
+- Détail article: /articles/<id>/
+- Nouveau: /articles/nouveau/
+- Date/heure: /now/
 
-#### Authentification
-- Authentification par token requise pour tous les endpoints
-- Token d'exemple créé : `220eeab6d742f8713aa88d76eee55295453de1f7`
+## Administration
+- URL: /admin/
+- Créez un superuser si besoin: `python manage.py createsuperuser`
 
-#### Livres (`/api/livres/`)
-- `GET /api/livres/` - Liste des livres (paginée, 5 par page)
-- `POST /api/livres/` - Création d'un livre
-- `GET /api/livres/<id>/` - Détail d'un livre
-- `PUT /api/livres/<id>/` - Modification d'un livre
-- `DELETE /api/livres/<id>/` - Suppression d'un livre
-- **Recherche** : `GET /api/livres/?search=<titre>` - Recherche par titre
-
-#### Auteurs (`/api/auteurs/`)
-- `GET /api/auteurs/` - Liste des auteurs (paginée, 5 par page)
-- `POST /api/auteurs/` - Création d'un auteur
-- `GET /api/auteurs/<id>/` - Détail d'un auteur (avec livres imbriqués)
-- `PUT /api/auteurs/<id>/` - Modification d'un auteur
-- `DELETE /api/auteurs/<id>/` - Suppression d'un auteur
-- **Filtrage** : `GET /api/auteurs/?year=<année>` - Auteurs nés après l'année donnée
-- **Action personnalisée** : `GET /api/auteurs/<id>/titres/` - Liste des titres des livres de l'auteur
-
-### Sécurité et CORS
-- Authentification par token obligatoire
-- CORS configuré pour `http://localhost:3000`
-- Permissions : `IsAuthenticated` par défaut
-
-## Données de test
-Des données de test sont automatiquement créées avec :
-- 3 auteurs (Victor Hugo, Jules Verne, Émile Zola)
-- 5 livres associés
-
-## Structure du projet
-```
-api_project/
-├── api_project/          # Configuration Django
-│   ├── settings.py      # Configuration DRF, CORS, authentification
-│   └── urls.py          # URLs principales
-├── bibliotheque/        # App bibliothèque
-│   ├── models.py        # Modèles Auteur et Livre
-│   ├── serializers.py   # Sérialiseurs DRF
-│   ├── views.py         # ViewSets avec filtrage et actions
-│   └── urls.py          # URLs de l'API
-├── requirements.txt     # Dépendances
-└── README.md           # Documentation
-```
+## CORS
+- Origine autorisée: http://localhost:3000
