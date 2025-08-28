@@ -1,16 +1,18 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    LivreViewSet, AuteurViewSet,
+    LivreViewSet, AuteurViewSet, ArticleListViewSet, NoteViewSet, CommentViewSet, FeedbackViewSet,
     home, current_datetime, ArticleListView, ArticleDetailView, ArticleCreateView
 )
 
-# Configuration du router DRF
 router = DefaultRouter()
 router.register(r'livres', LivreViewSet)
 router.register(r'auteurs', AuteurViewSet)
+router.register(r'articles', ArticleListViewSet)
+router.register(r'notes', NoteViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'feedbacks', FeedbackViewSet)
 
-# URLs pour l'API et les vues web
 urlpatterns = [
     # API REST (DRF)
     path('api/', include(router.urls)),

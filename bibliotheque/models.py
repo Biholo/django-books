@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Auteur(models.Model):
@@ -64,3 +65,30 @@ class Commentaire(models.Model):
 
     class Meta:
         ordering = ['date']
+
+
+class Note(models.Model):
+    titre = models.CharField(max_length=200)
+    contenu = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notes')
+    date_creation = models.DateTimeField(auto_now_add=True)
+    date_modification = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.titre
+
+    class Meta:
+        ordering = ['-date_modification']
+
+
+class Feedback(models.Model):
+    titre = models.CharField(max_length=200)
+    contenu = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedbacks')
+    date_creation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titre
+
+    class Meta:
+        ordering = ['-date_creation']
